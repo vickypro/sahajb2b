@@ -1,0 +1,168 @@
+<nav id="sidebar" role="navigation" class="sidebar">
+	<!-- need this .js class to initiate slimscroll -->
+	<div class="js-sidebar-content">
+		<header class="logo hidden-xs">
+			<a href=""><img alt="solar_logo" src="img/logo-left.png"></a>
+		</header>
+		<!-- seems like lots of recent admin template have this feature of user info in the sidebar.
+         looks good, so adding it and enhancing with notifications -->
+		<div class="sidebar-status visible-xs">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
+				class="thumb-sm avatar pull-right"> <img class="img-circle"
+					src="assets/images/people/a5.jpg" alt="...">
+			</span> <!-- .circle is a pretty cool way to add a bit of beauty to raw data.
+             should be used with bg-* and text-* classes for colors -->
+
+
+				<span class="circle bg-warning fw-bold text-gray-dark"> 13 </span>
+				&nbsp; <strong>Admin</strong> <b class="caret"></b>
+			</a>
+			<!-- #notifications-dropdown-menu goes here when screen collapsed to xs or sm -->
+		</div>
+		<!-- main notification links are placed inside of .sidebar-nav -->
+		<ul class="sidebar-nav">
+			<li>
+				<!-- an example of nested submenu. basic bootstrap collapse component -->
+				<a class="collapsed" data-target="#sidebar-dashboard"
+				data-toggle="collapse" data-parent="#sidebar"> <span
+					class="icon"> <i class="fa fa-tachometer"></i>
+				</span> Dashboard <i class="toggle fa fa-angle-down"></i>
+			</a>
+				<ul id="sidebar-dashboard" class="collapse">
+					<li><a data-ui-sref="app.dashboard">Admin Dashboard</a></li>
+					<!-- <li><a data-ui-sref="app.widgets">Dispatch Dashboard</a></li> -->
+				</ul>
+			</li>
+		<li>				
+				<a class="collapsed" data-target="#sidebar-dashboard1"
+				data-toggle="collapse" data-parent="#sidebar">
+				 <span class="icon"> <i class="fa fa-desktop"></i>
+				</span> Masters <i class="toggle fa fa-angle-down"></i>
+				</a>
+			<ul id="sidebar-dashboard1" class="collapse">
+			<li><a data-ui-sref="app.Bank"> <span class="icon">
+						<i class="fa fa-university"></i>
+				</span> Bank Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.CompanyProfile"> <span class="icon">
+						<i class="glyphicon glyphicon-user"></i>
+				</span> Company Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.Customer"> <span class="icon">
+						<i class="fa fa-user"></i>
+				</span> Customer Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.CustomerCategory"> <span
+					class="icon"> <i class="fa fa-user-plus"></i>
+				</span> Customer Category 
+			</a></li>
+			
+			<li><a data-ui-sref="app.District"> <span class="icon">
+						<i class="fa-area-chart"></i>
+				</span> District Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.Driver"> <span class="icon">
+						<i class="fa fa-user"></i>
+				</span> Driver Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.IdcardType"> <span class="icon">
+						<i class="fa fa-info"></i>
+				</span> Idcard Type 
+			</a></li>
+			
+			<li><a data-ui-sref="app.Item"> <span class="icon">
+						<i class="fa fa-italic"></i>
+				</span> Item Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.ItemCategory"> <span
+					class="icon"> <i class="fa fa-tags"></i>
+				</span> Item Category
+			</a></li>
+			
+			<li><a data-ui-sref="app.Route"> <span
+					class="icon"> <i class="fa fa-road"></i>
+				</span> Route Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.Sector"> <span class="icon">
+						<i class="fa fa-square-o"></i>
+				</span> Sector Master
+			</a></li>
+
+			<li><a data-ui-sref="app.SecurityAgency"> <span
+					class="icon"> <i class="fa fa-shield"></i>
+				</span> Security Agency 
+			</a></li>
+			
+			<li><a data-ui-sref="app.SecurityGuard"> <span
+					class="icon"> <i class="fa fa-paper-plane"></i>
+				</span> Security Guard 
+			</a></li>
+			
+			<li><a data-ui-sref="app.State"> <span class="icon">
+						<i class="fa fa-globe"></i>
+				</span> State Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.Transporter"> <span
+					class="icon"> <i class="fa fa-subway"></i>
+				</span> Transporter Master
+			</a></li>
+			
+			<li><a data-ui-sref="app.TransporterType"> <span class="icon">
+						<i class="fa fa-square-o"></i>
+				</span> Transporter Type
+			</a></li>
+			
+			<li><a data-ui-sref="app.Uom"> <span class="icon">
+						<i class="fa fa-square"></i>
+				</span> UOM Master
+			</a></li>
+
+			<li><a data-ui-sref="app.Van"> <span class="icon">
+						<i class="fa fa-truck"></i>
+				</span> Van Master
+			</a></li>
+			</ul>
+			</li>
+		
+		
+		<li>
+			<a class="collapsed" data-target="#sidebar-dashboard2"
+				data-toggle="collapse" data-parent="#sidebar"> <span
+					class="icon"> <i class="fa fa-building"></i>
+				</span>Transactions<i class="toggle fa fa-angle-down"></i>
+			</a>
+				<ul id="sidebar-dashboard2" class="collapse">
+					<li><a data-ui-sref="app.PurchaseOrder"> <span class="icon"> <i
+						class="fa fa-file-o"></i>
+				</span>Purchase Order
+			</a></li>
+			</ul>
+		</li>
+		
+		
+		<li>
+			<a class="collapsed" data-target="#sidebar-dashboard3"
+				data-toggle="collapse" data-parent="#sidebar"> <span
+					class="icon"> <i class="fa fa-industry"></i>
+				</span>Reports<i class="toggle fa fa-angle-down"></i>
+			</a>
+				<ul id="sidebar-dashboard3" class="collapse">
+					<li><a data-ui-sref="app.DispatchReport"> <span class="icon">
+						<i class="fa fa-calendar-check-o"></i>
+				</span> Daily Dispatch
+			</a>
+			</li>
+			</ul>
+		</li>
+		
+
+		</ul>
+</nav>

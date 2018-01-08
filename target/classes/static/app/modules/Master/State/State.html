@@ -1,0 +1,125 @@
+<h2 class="page-title">
+	State Master
+	<button class="btn btn-default btn-success pull-right"
+		ng-click="addNewState();stateform.stateCode.$pristine=true;stateform.stateName.$pristine=true;stateform.ccEmailId.$pristine=true;" ng-hide="stateForm">
+		&nbsp; Add New State
+	</button>
+</h2>
+<div class="row">
+	<div class="col-md-12">
+		<section class="widget">
+			<header>
+				<div class="widget-controls">
+					<a data-widgster="expand" title="Expand" href="#"><i
+						class="glyphicon glyphicon-chevron-up"></i></a> <a
+						data-widgster="collapse" title="Collapse" href="#"><i
+						class="glyphicon glyphicon-chevron-down"></i></a>
+				</div>
+			</header>
+			<div class="table-responsive small-top" ng-init="getStateList();"
+				ng-hide="stateForm">
+				<table id="exportCreateIndent"
+					class="table table-striped table-bordered" border="1">
+					<thead>
+						<tr style="float: center; background-color: #CFD8DC;">
+							<th class="text-center">Sr No</th>
+							<th class="text-center">State Name</th>
+							<th class="text-center">State Code</th>
+							<th class="text-center">CC Email Address</th>
+							<th class="text-center">CC Office Address1</th>
+							<th class="text-center">Action</th>
+
+
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr ng-repeat="state in stateList">
+							<td>{{$index + 1}}</td>
+							<td><a herf="" ng-click="getStateDetails(state.stateId)">{{state.stateName}}</a></td>
+							<td>{{state.stateCode}}</td>
+							<td>{{state.ccEmailId}}</td>
+							<td>{{state.ccOfficeAddress1}}</td>
+							<td>
+								<button class="btn btn-xs btn-danger btn-rounded"  ng-click=" deleteState(state.stateId)"><span class="glyphicon glyphicon-remove"></button>
+						  </td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="widget-body" ng-show="stateForm">
+				<div class="row">
+					<div class="col-md-8">
+						<div data-bootstrap-wizard data-height="370px" class="form-wizard">
+
+							<form name="stateform" action='' method="POST"  data-parsley-priority-enabled="false" novalidate="novalidate">
+								<fieldset>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : stateform.stateName.$invalid && !stateform.stateName.$pristine }">
+											<label for="stateName">State Name</label> <input type="text"
+												id="stateName" name="stateName" ng-model="state.stateName"	class="form-control" required="required"> 
+												<span ng-show="!stateform.stateName.$pristine && stateform.stateName.$invalid" class="help-block">Enter State Name</span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : stateform.stateCode.$invalid && !stateform.stateCode.$pristine }">
+											<label for="stateCode">State Code</label> 
+											<input type="text"	id="stateCode" maxlength="2" ng-change="state.stateCode = state.stateCode.toUpperCase()"  name="stateCode" ng-model="state.stateCode" class="form-control"  required="required">
+										   <span ng-show="!stateform.stateCode.$pristine && stateform.stateCode.$invalid" class="help-block">Enter State Code</span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : stateform.ccEmailId.$invalid && !stateform.ccEmailId.$pristine }">
+											<label for="emailAddress">CC Email Id</label> <input
+												type="email" id="emailAddress" name="ccEmailId"
+												ng-model="state.ccEmailId" class="form-control"
+												required="required"> <span ng-show="!stateform.ccEmailId.$pristine && stateform.ccEmailId.$invalid" class="help-block">Enter Valid Email ID</span>
+										</div>
+										
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="description">State Description</label>
+											<textarea type="text" id="description" name="description"
+												ng-model="state.description" class="form-control" rows="2"></textarea>
+											<span class="help-block"></span>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="officeAddress1">Office Address1</label>
+											<textarea type="text" id="ccOfficeAddress1"
+												name="ccOfficeAddress1" ng-model="state.ccOfficeAddress1"
+												class="form-control" ></textarea>
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="officeAddress2">Office Address2</label>
+											<textarea type="text" id="ccOfficeAddress2"
+												name="ccOfficeAddress2" ng-model="state.ccOfficeAddress2"
+												class="form-control"></textarea>
+											<span  class="help-block"></span>
+										</div>
+									</div>
+
+								</fieldset>
+							</form>
+							</div>
+							<br/>
+							<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+								<button class="btn btn-default btn-success"  ng-hide="updateForm"
+									ng-click="stateform.stateCode.$pristine=false;stateform.stateName.$pristine=false;stateform.ccEmailId.$pristine=false;saveState(!stateform.$invalid);">
+									<i class="glyphicon glyphicon-ok"></i> &nbsp; Submit
+								</button>
+								<button ng-show="updateForm" class="btn btn-info" 
+								ng-click="stateform.stateCode.$pristine=false;stateform.stateName.$pristine=false;stateform.ccEmailId.$pristine=false;updateState(!stateform.$invalid);" > &nbsp; Update</button>
+								<button class="btn btn-primary btn-warning" ng-click="backToStateList();">Cancel &nbsp;</button>
+							</div>
+						
+						<br />
+
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

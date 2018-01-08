@@ -1,0 +1,275 @@
+<h2 class="page-title">
+	Purchase Order
+	<button class="btn btn-default btn-success pull-right"
+		ng-click="addpo();" ng-hide="PoForm">
+		<i class="glyphicon glyphicon-ok"></i> &nbsp;Create Po
+	</button>
+</h2>
+
+<div class="row">
+	<div class="col-md-12">
+		<section class="widget">
+			<header>
+				<div class="widget-controls">
+					<a data-widgster="expand" title="Expand" href="#"><i
+						class="glyphicon glyphicon-chevron-up"></i></a> <a
+						data-widgster="collapse" title="Collapse" href="#"><i
+						class="glyphicon glyphicon-chevron-down"></i></a> <a
+						data-widgster="close" title="Close" href="#"><i
+						class="glyphicon glyphicon-remove"></i></a>
+				</div>
+			</header>
+
+			<div class="table-responsive small-top" ng-init="PoListAll();"
+				ng-hide="PoForm">
+				<table id="exportCreateIndent"
+					class="table table-striped table-bordered" border="1">
+					<thead>
+						<tr style="float: center; background-color: #CFD8DC;">
+
+							<th class="text-center">Sr No</th>
+							<th class="text-center">Po Date</th>
+							<th class="text-center">Po No</th>
+							<th class="text-center">PO Time</th>
+							<th class="text-center">Indent No</th>
+							<th class="text-center">PO Valid Date</th>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr ng-repeat="po in PoList">
+							<td>{{$index + 1}}</td>
+							<td>{{po.poDate}}</td>
+							<td>{{po.poNo}}</td>
+							<td>{{po.poTime}}</td>
+							<td>{{po.indent_no}}</td>
+							<td>{{po.valid_date}}</td>
+
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+
+
+			<div class="widget-body" ng-show="PoForm">
+				<div class="row">
+					<div class="col-md-8">
+
+						<div data-bootstrap-wizard data-height="370px" class="form-wizard">
+
+							<div>
+								<div>
+									<form action='' method="POST"
+										data-parsley-priority-enabled="false" novalidate="novalidate">
+
+									</form>
+
+									<fieldset>
+
+
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+											<div class="row">
+												<!-- Password -->
+												<label for="address">RE-11 PDF</label>
+												<form method="POST" action="/upload"
+													enctype="multipart/form-data">
+													<!--  <form method="POST" id="fromFileUpload" enctype="multipart/form-data"  ng-submit="continueFileUpload()">
+       -->
+													<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+														<input type="file" id="address" name="file" required />
+													</div>
+													<div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+														<input type="submit" class="btn btn-default btn-success"
+															value="Upload" />
+														<!-- <button class="btn btn-default btn-success"
+															ng-click="clear();">Clear</button> -->
+													</div>
+												</form>
+												<span class="help-block"></span>
+											</div>
+
+
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+											ng-init="getpocontract();">
+
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="Date">PO Date</label> <input type="text"
+													id="date" name="date" class="form-control"
+													ng-readonly="true" ng-model="po.poDate"> <span
+													class="help-block"></span>
+
+
+											</div>
+
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="accountNumber">PO No</label> <input type="text"
+													id="poNo" name="poNo" ng-readonly="true"
+													class="form-control" data-parsley-trigger="change"
+													ng-model="po.poNo"> <span class="help-block"></span>
+											</div>
+
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="accountNumber">PO Time</label> <input
+													type="text" id="poTime" name="poTime" ng-readonly="true"
+													class="form-control" data-parsley-trigger="change"
+													ng-model="po.poTime"> <span class="help-block"></span>
+											</div>
+
+
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="accountNumber">PO Valid Date</label> <input
+													type="text" id="poValid" name="poValid" ng-readonly="true"
+													class="form-control" data-parsley-trigger="change"
+													ng-model="po.poValid"> <span class="help-block"></span>
+											</div>
+											
+											
+											<div ng-init="getproducttable();" ng-show="pdftable">
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="accountNumber">Indent No</label> <input
+														type="text" id="indent_no" name="indent_no"
+														ng-readonly="true" class="form-control"
+														data-parsley-trigger="change" ng-model="re.indent_no">
+													<span class="help-block"></span>
+												</div>
+
+
+
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="accountNumber">RE Date</label> <input
+														type="text" id="date" name="date" ng-readonly="true"
+														class="form-control" data-parsley-trigger="change"
+														ng-model="re.date"> <span class="help-block"></span>
+												</div>
+
+
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="accountNumber">License No</label> <input
+														type="text" id="license_no" name="license_no"
+														ng-readonly="true" class="form-control"
+														data-parsley-trigger="change" ng-model="re.license_no">
+													<span class="help-block"></span>
+												</div>
+											
+
+
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="accountNumber">Valid Date</label> <input
+														type="text" id="valid_date" name="valid_date"
+														ng-readonly="true" class="form-control"
+														data-parsley-trigger="change" ng-model="re.valid_date">
+													<span class="help-block"></span>
+												</div>
+												
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="accountNumber">Explosive Receive On</label> <input
+														type="text" id="receive" name="receive"
+														ng-readonly="true" class="form-control"
+														data-parsley-trigger="change" ng-model="re.receive">
+													<span class="help-block"></span>
+												</div>
+
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="accountNumber">RE Address</label>
+													<textarea class="form-control" ng-model="re.address"
+														ng-readonly="true"></textarea>
+													<span class="help-block"></span>
+												</div>
+											</div>
+
+										</div>
+
+									</fieldset>
+
+								</div>
+								<br />
+
+
+								<div class="table-responsive small-top" ng-init="valid();"
+									ng-show="producttable">
+									<table id="exportCreateIndent"
+										class="table table-striped table-bordered" border="1">
+										<!-- <caption>Explosive Data</caption> -->
+										<h3>Explosive</h3>
+										<thead>
+											<tr style="float: center; background-color: #CFD8DC;">
+												<th class="text-center">Sr No</th>
+												<th class="text-center">Explosive No</th>
+												<th class="text-center">Class</th>
+												<th class="text-center">Division</th>
+												<th class="text-center">Quality</th>
+												<th class="text-center">Unit</th>
+											</tr>
+										</thead>
+										<tbody class="text-center">
+											<tr ng-repeat="data1 in table1">
+
+												<td>{{data1.sr_no}}</td>
+												<td>{{data1.explosive_name}}</td>
+												<td>{{data1.classes}}</td>
+												<td>{{data1.division}}</td>
+												<td>{{data1.quality}}</td>
+												<td>{{data1.unit}}</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+
+
+					<!-- 			<div class="table-responsive small-top"
+									ng-show="producttablecat">
+									<table id="exportCreateIndent"
+										class="table table-striped table-bordered" border="1">
+										<caption>Explosive Data</caption>
+										<h3>Explosive</h3>
+										<thead>
+											<tr style="float: center; background-color: #CFD8DC;">
+												<th class="text-center">Sr No</th>
+												<th class="text-center">Explosive No</th>
+												<th class="text-center">Class</th>
+												<th class="text-center">Division</th>
+												<th class="text-center">Quality</th>
+												<th class="text-center">Unit</th>
+											</tr>
+										</thead>
+										<tbody class="text-center">
+											<tr ng-repeat="data1 in table2">
+
+												<td>{{data1.sr_no}}</td>
+												<td>{{data1.explosive_name}}</td>
+												<td>{{data1.classes}}</td>
+												<td>{{data1.division}}</td>
+												<td>{{data1.quality}}</td>
+												<td>{{data1.unit}}</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+ -->
+
+								<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12"
+									align="center">
+									<button class="btn btn-default btn-success" ng-disabled="invalid"
+										ng-click="savedata();">
+										<i class="glyphicon glyphicon-ok"></i> &nbsp; Submit
+									</button>
+
+									<button class="btn btn-primary btn-warning"
+										ng-click="backToPoList(); clear(); PoListAll();">
+										Cancel &nbsp; <i class="fa fa-caret-wrong"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

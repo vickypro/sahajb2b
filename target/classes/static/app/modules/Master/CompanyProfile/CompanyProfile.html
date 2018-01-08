@@ -1,0 +1,202 @@
+<script>
+  function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }    
+</script>
+
+<h4 class="page-title">
+	<b>Company Profile Master</b>
+	<button class="btn btn-success btn-rounded pull-right"
+		ng-click="showItemForm();companyProfileForm.companyName.$pristine=true;companyProfileForm.stateName.$pristine=true;companyProfileForm.districtName.$pristine=true;companyProfileForm.city.$pristine=true;
+										companyProfileForm.pincode.$pristine=true;companyProfileForm.contactNumber1.$pristine=true;companyProfileForm.emailId.$pristine=true;companyProfileForm.address.$pristine=true;" ng-hide="itemForm ||  updateItem">Add New Company</button>
+</h4>
+
+<div class="row">
+	<div class="col-md-12">
+		<section class="widget">
+			<header>
+				<div class="widget-controls">
+					<a data-widgster="expand" title="Expand" href="#"><i
+						class="glyphicon glyphicon-chevron-up"></i></a> <a
+						data-widgster="collapse" title="Collapse" href="#"><i
+						class="glyphicon glyphicon-chevron-down"></i></a>
+				</div>
+			</header>
+			<div class="table-responsive small-top" ng-init="getCompanyDetailsList();" ng-hide="itemForm ||  updateItem">
+				<table id="exportCreateIndent"
+					class="table table-striped table-bordered" border="1">
+					<caption>
+						<b>Company Profile List</b>
+					</caption>
+					<thead>
+						<tr style="float: center; background-color: #CFD8DC;">
+							<th class="text-center">Sr No</th>
+							<th class="text-center">Company Name</th>
+							<th class="text-center">City</th>
+							<th class="text-center">Contact Number</th>
+							<th class="text-center">Email Id</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr ng-repeat="company in companyDetailsList track by $index">
+							<td>{{$index+1}}</td>
+							<td><a herf=""  ng-click=" getCompanyDetails(company.companyId)">{{company.companyName}}</a></td>
+							<td>{{company.city}}</td>
+							<td>{{company.contactNumber1}}</td>
+							<td>{{company.emailId}}</td>
+							<td>
+								<button class="btn btn-xs btn-danger btn-rounded"  ng-click=" deleteCompanyProfile(company.companyId)">
+								<span class="glyphicon glyphicon-remove"></button>
+						  </td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<div class="widget-body" ng-show="itemForm || updateItem">
+				<div class="row">
+					<div class="col-md-8">
+						<div data-bootstrap-wizard data-height="370px" class="form-wizard">
+
+							<div>
+								<form name="companyProfileForm" action='' method="POST"  data-parsley-priority-enabled="false" novalidate="novalidate">
+									<fieldset>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.companyName.$invalid && !companyProfileForm.companyName.$pristine }">
+												<label for="companyName">Company Name</label> 
+												<input type="text" id="companyName" name="companyName" class="form-control"  ng-model="company.companyName" required="required">
+												<span ng-show="!companyProfileForm.companyName.$pristine && companyProfileForm.companyName.$invalid" class="help-block">Enter Company Name</span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.stateName.$invalid && !companyProfileForm.stateName.$pristine }">
+												<label for="stateName">State</label> 
+												<select class="select2 form-control" 	id="default-select" name="stateName" class="form-control" ng-model="company.stateId" 
+												ng-options="c.stateId as c.stateName for c in stateList" ng-change="getDistrictListForState(company.stateId);" required="required"></select>
+												<span ng-show="!companyProfileForm.stateName.$pristine && companyProfileForm.stateName.$invalid" class="help-block">Please Select State</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.districtName.$invalid && !companyProfileForm.districtName.$pristine }">
+												<label for="districtName">District</label> 
+												<select class="select2 form-control"  required="required"	id="default-select" name="districtName" class="form-control" ng-model="company.districtId" 
+												ng-options="c.districtId as c.districtName for c in districtList"></select> 
+												<span ng-show="!companyProfileForm.districtName.$pristine && companyProfileForm.districtName.$invalid" class="help-block" >Please Select District</span>
+											</div>
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.city.$invalid && !companyProfileForm.city.$pristine }">
+												<label for="city">City</label>
+												<input	type="text" id="city" name="city"  class="form-control" required="required" ng-model="company.city"/>
+												<span ng-show="!companyProfileForm.city.$pristine && companyProfileForm.city.$invalid" class="help-block">Please Enter City</span>
+											</div>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.pincode.$invalid && !companyProfileForm.pincode.$pristine }">
+												<label for="pincode">Pincode</label> 
+												<input type="text" id="pincode" name="pincode" maxlength="6" onkeypress="return isNumberKey(event)" class="form-control"	 ng-model="company.pincode"	required="required"> 
+												<span ng-show="!companyProfileForm.pincode.$pristine && companyProfileForm.pincode.$invalid" class="help-block">Please Enter Pincode</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.contactNumber1.$invalid && !companyProfileForm.contactNumber1.$pristine }">
+												<label for="contactNumber1">Contact Number 1</label> 
+												<input type="text" id="contactNumber1" name="contactNumber1" onkeypress="return isNumberKey(event)"  class="form-control" required="required" ng-model="company.contactNumber1"/> 
+												<span ng-show="!companyProfileForm.contactNumber1.$pristine && companyProfileForm.contactNumber1.$invalid" class="help-block">Enter At Least 1 Contact Number</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="contactNumber2">Contact Number 2</label> 
+												<input type="text" id="contactNumber2" name="contactNumber2"  onkeypress="return isNumberKey(event)" class="form-control"  ng-model="company.contactNumber2"> 
+													<span  class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.emailId.$invalid && !companyProfileForm.emailId.$pristine }">
+												<label for="emailId">Email Id</label>
+												 <input type="email" id="emailId" name="emailId" class="form-control" ng-model="company.emailId" required="required"/>
+												<span ng-show="!companyProfileForm.emailId.$pristine && companyProfileForm.emailId.$invalid" class="help-block">Please Enter Valid Email Id</span>
+											</div>
+
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : companyProfileForm.address.$invalid && !companyProfileForm.address.$pristine }">
+												<label for="address">Address</label>
+												 <textarea type="text" id="address" name="address" rows="2" columns="20" class="form-control" ng-model="company.address" required="required"></textarea>
+												<span ng-show="!companyProfileForm.address.$pristine && companyProfileForm.address.$invalid" class="help-block">Please Enter Address</span>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+
+								<br />
+								<div class="table-responsive small-top" ng-init="">
+									<table id="exportCreateIndent"
+										class="table table-striped table-bordered" border="1">
+										<caption>
+											<b>Bank Details</b>
+										</caption>
+										<thead>
+											<tr style="float: center; background-color: #CFD8DC;" ng-init="getStateList();">
+												<th class="text-center">Sr No</th>
+												<th class="text-center">Bank Name</th>
+												<th class="text-center">Branch Name</th>
+												<th class="text-center">Account Number</th>
+												<th class="text-center">IFSC Code</th>
+												<th class="text-center">Action</th>
+											</tr>
+										</thead>
+										<tbody class="text-center">
+											<tr>
+												<td></td>
+												<td><select class="select2 form-control" 	id="default-select" name="state" class="form-control" ng-model="bankDetails.bankId" ng-options="c.bankId as c.bankName for c in bankList"></select></td>
+												<td><input type="text" id="address" name="bankBranchName"
+													placeholder="" ng-model="bankDetails.bankBranchName"
+													class="form-control"></td>
+												<td><input type="text" id="address" name="accountNumber" onkeypress="return isNumberKey(event)"
+													placeholder="" ng-model="bankDetails.accountNumber"
+													class="form-control"></td>
+												<td><input type="text" id="address" name="ifscCode"
+													placeholder="" ng-model="bankDetails.ifscCode"
+													class="form-control"></td>
+												<td><button class="btn btn-info btn-rounded"
+														ng-disabled="!bankDetails.bankId || !bankDetails.bankBranchName || !bankDetails.ifscCode"
+														type="submit" data-ng-click="addBankList();">
+														Add &nbsp;</button></td>
+											</tr>
+											<tr ng-repeat="bank in bankDetailsList track by $index">
+												<td>{{$index + 1}}</td>
+												<td>
+												<select class="select2 form-control" 	id="default-select" name="state" class="form-control" data-ng-model="bank.bankId" 
+												ng-options="c.bankId as c.bankName for c in bankList"  ng-disabled="!editMode"></select></td>
+												<td>{{bank.bankBranchName}}</td>
+												<td>{{bank.accountNumber}}</td>
+												<td>{{bank.ifscCode}}</td>
+												<td>
+													    <button class="btn btn-xs btn-warning" data-ng-hide="editMode" data-ng-click="editMode = true; editAppKey(entry)">Edit</button>
+													    <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false;" class="btn btn-success btn-xs">Update</button>
+														<button class="btn btn-xs btn-danger" type="submit" data-ng-click="deleteBankListFinal($index);">Delete</button></td>
+												</tr>
+
+										</tbody>
+									</table>
+								</div>
+								<div class="row" align="center">
+										<button ng-hide= "updateItem" class="btn btn-default btn-success"  
+										ng-click="companyProfileForm.companyName.$pristine=false;companyProfileForm.stateName.$pristine=false;companyProfileForm.districtName.$pristine=false;companyProfileForm.city.$pristine=false;
+										companyProfileForm.pincode.$pristine=false;companyProfileForm.contactNumber1.$pristine=false;companyProfileForm.emailId.$pristine=false;companyProfileForm.address.$pristine=false;
+										saveCompanyProfile(!companyProfileForm.$invalid);">
+										 &nbsp; Submit</button>
+									 
+										<button ng-show="updateItem" class="btn btn-default btn-info"  ng-click="companyProfileForm.companyName.$pristine=false;companyProfileForm.stateName.$pristine=false;companyProfileForm.districtName.$pristine=false;companyProfileForm.city.$pristine=false;
+										companyProfileForm.pincode.$pristine=false;companyProfileForm.contactNumber1.$pristine=false;companyProfileForm.emailId.$pristine=false;companyProfileForm.address.$pristine=false;
+										updateCompanyProfile(!companyProfileForm.$invalid);"> &nbsp; Update</button>
+										<button class="btn btn-primary btn-warning" ng-click="hideItemForm();">Cancel</button>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+

@@ -1,0 +1,180 @@
+
+<h4 class="page-title">
+	<b>Security Guard Master</b>
+	<button class="btn btn-success btn-rounded pull-right"
+		ng-click="showItemForm(); newGuard()" ng-hide="agencyform ||  updateagencyform">Create Security Guard</button>
+		<br>
+</h4>
+
+<div class="row">
+	<div class="col-md-12">
+		<section class="widget">
+			<header>
+				<!--  <h4>
+          Wizard
+          <small>Tunable widget</small>
+        </h4> -->
+				<div class="widget-controls">
+					<a data-widgster="expand" title="Expand" href="#"><i
+						class="glyphicon glyphicon-chevron-up"></i></a> <a
+						data-widgster="collapse" title="Collapse" href="#"><i
+						class="glyphicon glyphicon-chevron-down"></i></a>
+				</div>
+			</header>
+			<div class="table-responsive small-top" ng-init="getSecurityList();" ng-hide="agencyform ||  updateagencyform">
+				<table id="exportCreateIndent"
+					class="table table-striped table-bordered" border="1">
+					<caption>
+						<b>Security Guard List-
+						
+						</b>
+					</caption>
+					<thead>
+						<tr style="float: center; background-color: #CFD8DC;">
+							<th class="text-center">Sr No</th>
+							<th class="text-center">Sec.Guard Code</th>
+							<th class="text-center">Sec.Guard Name</th>
+							<th class="text-center">Mobile Number</th>
+							<th class="text-center">Sec Guard Agency</th>
+							<th class="text-center">Status</th>
+							 <th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+					<tr ng-repeat="guard in guardList">
+						 
+							<td>{{$index+1}}</td>
+							<td>{{guard.securityGuardCode}}</td>
+							<td> {{guard.securityGuardName}}</td>
+							<td>{{guard.mobileNo}}</td>
+							<td>{{guard.securityAgency}}</td>
+						 	<td>{{guard.activeStatus}}</td>
+							 
+								 
+							
+							<td><button class="btn btn-xs btn-info btn-rounded " ng-click="getGuardDetails(guard.securityGuardCode);"><span class="glyphicon glyphicon-edit"></button>
+								<button class="btn btn-xs btn-danger btn-rounded"  ng-click="deleteGuard(guard.securityGuardCode);"><span class="glyphicon glyphicon-remove"></button>
+						  </td>
+						</tr>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="widget-body" ng-show="agencyform || updateagencyform">
+				<div class="row">
+					<div class="col-md-8">
+						<div data-bootstrap-wizard data-height="370px" class="form-wizard">
+
+							<div>
+								<form action='' method="POST"
+									data-parsley-priority-enabled="false" novalidate="novalidate">
+									<fieldset>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Username -->
+												<label for="companyName">Sec Guard code</label> <input type="text"
+													id="securityagencyCode" name="securityGuardCode" placeholder="" class="form-control"
+													data-parsley-trigger="change" ng-model="guard.securityGuardCode"
+													 ng-readonly="true" required="required"> <span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Email -->
+												<label for="text">Sec Guard Name</label> <input type="text"
+													id="securityagencyName" name="securityGuardName" placeholder="" class="form-control"
+													data-parsley-trigger="change" ng-model="guard.securityGuardName"
+													required="required"> <span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Email -->
+												<label for="email">Sec Agency</label> 
+												<select ng-model="guard.securityAgency" class="form-control" ng-options="x for x in agencydataList">
+												</select>
+												 <span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Password -->
+												<label for="address">Mobile No</label> <input type="text"
+													id="emailId" name="mobileNo" placeholder=""
+													class="form-control" ng-model="guard.mobileNo"> <span
+													class="help-block"></span>
+											</div>
+											
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Email -->
+												<label for="email">Age	</label> <input type="text"
+													id="mobilNumber" name="guardAge" placeholder="" class="form-control"
+													data-parsley-trigger="change" ng-model="guard.guardAge"
+													required="required"> <span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Password -->
+												<label for="address">Address</label> 
+												<textarea class="form-control" ng-model="guard.address"></textarea>
+												 <span class="help-block"> <span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+													<label for="stateId">Id card type</label> <select ng-model="guard.cardType" class="form-control" ng-options="x for x in IdcardList">
+												</select>
+												<span
+														class="help-block"></span>
+												</div>
+												 
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Username -->
+												<label for="username">Id Card No</label> <input
+													type="text" id="cardNo" name="cardNo" placeholder=""
+													class="form-control" required="required"
+													ng-model="guard.cardNo"> <span class="help-block"></span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Username -->
+												<label for="email">Active Status</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model=guard.activeStatus>
+												</div> <span class="help-block"></span>
+											</div>
+										
+
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<!-- Username -->
+												<label for="email">Attached Copy of ID-Card</label>
+												<input type="file" id="address" name="file" required />
+												</div> <span class="help-block"></span>
+											</div>
+
+
+
+
+										</div>
+
+									 
+									</fieldset>
+								</form>
+
+								<br />
+								 
+								<div class="row" >
+										<center>
+										<button ng-hide= "updateAgencybutton" class="btn btn-default btn-success"  ng-click="saveGuard(); getSecurityList()">
+										 &nbsp; Submit</button>
+									 
+										<button ng-show="updateAgencybutton" class="btn btn-default btn-info"  ng-click="updateGuard(); getSecurityList()"> &nbsp; Update</button>
+										<button class="btn btn-primary btn-warning" ng-click="hideItemForm(); getSecurityList()">Cancel</button>
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+

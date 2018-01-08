@@ -1,0 +1,411 @@
+
+<h4 class="page-title">
+	<b>Item Master</b>
+	<button class="btn btn-success btn-rounded pull-right"
+		ng-click="itemMasterForm.companyId.$pristine=true;itemMasterForm.brandId.$pristine=true;itemMasterForm.itemCode.$pristine=true;itemMasterForm.itemName.$pristine =true;
+												itemMasterForm.itemCategoryId.$pristine=true;itemMasterForm.shortName.$pristine=true;itemMasterForm.quantityPerBox.$pristine=true;itemMasterForm.uomId.$pristine=true;
+												itemMasterForm.kgPerUom.$pristine=true;itemMasterForm.displayOrder.$pristine=true;itemMasterForm.equivalentItemId.$pristine=true;itemMasterForm.groupName.$pristine=true;
+												itemMasterForm.dailyStockMainGroup.$pristine=true;itemMasterForm.tokenNoPrefix.$pristine=true;itemMasterForm.sectorId.$pristine=true;itemMasterForm.saleQuantity.$pristine=true;
+												itemMasterForm.packingQuantity.$pristine=true;showItemForm();" ng-hide="itemForm ||  updateItem">Add New Item</button>
+</h4>
+
+<div class="row">
+	<div class="col-md-12">
+		<section class="widget">
+			<header>
+				<!--  <h4>
+          Wizard
+          <small>Tunable widget</small>
+        </h4> -->
+				<div class="widget-controls">
+					<a data-widgster="expand" title="Expand" href="#" ><i
+						class="glyphicon glyphicon-chevron-up"></i></a> <a
+						data-widgster="collapse" title="Collapse" href="#"><i
+						class="glyphicon glyphicon-chevron-down"></i></a>
+				</div>
+			</header>
+			<div class="table-responsive small-top" ng-init="getItemList();" ng-hide="itemForm ||  updateItem">
+				<table id="exportCreateIndent"
+					class="table table-striped table-bordered" border="1">
+					<caption>
+						<b>Item List-
+						
+						</b>
+					</caption>
+					<thead>
+						<tr style="float: center; background-color: #CFD8DC;">
+							<th class="text-center">Sr No</th>
+							<th class="text-center">Item Code</th>
+							<th class="text-center">Item Name</th>
+							<th class="text-center">Item Short Name</th>
+							<th class="text-center">Group Name</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr ng-repeat="item in itemList track by $index">
+							<td>{{$index+1}}</td>
+							<td>{{item.itemCode}}</td>
+							<td><a href="" ng-click="getItemDetails(item.itemId)">{{item.itemName}}</a></td>
+							<td>{{item.shortName}}</td>
+							<td>{{item.groupName}}</td>
+							<td>
+								<button class="btn btn-xs btn-danger btn-rounded"  ng-click=" deleteItem(item.itemId)"><span class="glyphicon glyphicon-remove"></button>
+						  </td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<div class="widget-body" ng-show="itemForm || updateItem">
+				<form 	data-parsley-priority-enabled="false" novalidate="novalidate" name="itemMasterForm">
+				<div class="row">
+					<div class="col-md-8">
+						<div  class="form-wizard">
+							<div data-bootstrap-wizard class="form-wizard">
+								<ul class="nav-justified mb-sm">
+									<li id="liOne"><a data-target="#tab1" data-toggle="tab" id="tabOne" > <small>1.</small>
+											Item Details
+									</a></li>
+									<li id="liTwo"><a data-target="#tab2" data-toggle="tab" id="tabTwo"> <small>2.</small>
+											Item Sale Rate Details
+									</a></li>
+								</ul>
+									<div class="tab-content" data-height="600">
+									<div class="tab-pane bg-gray-lighter" id="tab1">
+									<fieldset>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.companyId.$invalid && !itemMasterForm.companyId.$pristine }">
+												<label for="companyId">Company Name</label> 
+												<select  class="select2 form-control" id="default-select" name="companyId" required="required"  ng-model="item.companyId" ng-options="c.companyId as c.companyName for c in companyDetailsList">
+												</select> <span  ng-show="!itemMasterForm.companyId.$pristine && itemMasterForm.companyId.$invalid" class="help-block">Please Select Company</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.brandId.$invalid && !itemMasterForm.brandId.$pristine }">
+											  <label for="brandId">Brand ID</label> 
+											  <input type="text" id="brandId" name="brandId" placeholder="" class="form-control" data-parsley-trigger="change" ng-model="item.brandId"
+													required="required"> 
+													<span ng-show="!itemMasterForm.brandId.$pristine && itemMasterForm.brandId.$invalid" class="help-block">Please Enter Brand ID</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.itemCode.$invalid && !itemMasterForm.itemCode.$pristine }">
+												<label for="itemCode">Item Code</label> 
+												<input type="text" id="itemCode" name="itemCode" class="form-control" data-parsley-trigger="change"  name="itemCode"
+												ng-model="item.itemCode" required="required">
+												 <span ng-show="!itemMasterForm.itemCode.$pristine && itemMasterForm.itemCode.$invalid" class="help-block">Please Enter Item Code</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.itemName.$invalid && !itemMasterForm.itemName.$pristine }">
+												<label for="address">Item Name</label> <input type="text" required="required"  id="address" name="address" name="itemName" class="form-control" ng-model="item.itemName"> 
+												<span ng-show="!itemMasterForm.itemName.$pristine && itemMasterForm.itemName.$invalid" class="help-block">Please Enter Item Name</span>
+											</div>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.itemCategoryId.$invalid && !itemMasterForm.itemCategoryId.$pristine }">
+												<label for="itemCategoryId">Item Category</label> 
+												<select  class="select2 form-control" required="required"  name="itemCategoryId" id="default-select" ng-model="item.itemCategoryId" ng-options="c.itemCategoryId as c.itemCategoryName for c in itemCategoryList">
+												</select> 
+												<span ng-show="!itemMasterForm.itemCategoryId.$pristine && itemMasterForm.itemCategoryId.$invalid" class="help-block"> Please Select Item Category</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.shortName.$invalid && !itemMasterForm.shortName.$pristine }">
+												<label for="shortName">Item Short Name</label> 
+												<input type="text" id="username" name="shortName"  class="form-control" required="required" ng-model="item.shortName"> 
+												<span ng-show="!itemMasterForm.shortName.$pristine && itemMasterForm.shortName.$invalid" class="help-block">Please Enter Item Short Name</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.quantityPerBox.$invalid && !itemMasterForm.quantityPerBox.$pristine }">
+												<label for="quantityPerBox">Quantity Per Box</label> 
+												<input type="text" id="quantityPerBox" name="quantityPerBox" class="form-control" data-parsley-trigger="change" required="required" 
+												ng-model="item.quantityPerBox"> 
+												<span ng-show="!itemMasterForm.quantityPerBox.$pristine && itemMasterForm.quantityPerBox.$invalid" class="help-block">Please Enter Quantity Per Box</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.uomId.$invalid && !itemMasterForm.uomId.$pristine }">
+												<label for="uomId">UOM</label> 
+												<select class="select2 form-control" id="default-select" name="uomId"  class="form-control" required="required"  ng-model="item.uomId"
+													ng-options="c.uomId as c.uomName for c in uomList"></select>
+												<span ng-show="!itemMasterForm.uomId.$pristine && itemMasterForm.uomId.$invalid" class="help-block">Please Select UOM</span>
+											</div>
+
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"  ng-class="{ 'has-error' : itemMasterForm.kgPerUom.$invalid && !itemMasterForm.kgPerUom.$pristine }">
+												<label for="kgPerUom">Kg per UOM</label> 
+												<input type="text" id="kgPerUom" name="kgPerUom" placeholder="" maxlength="8" class="form-control" ng-model="item.kgPerUom"> 
+												<span ng-show="!itemMasterForm.kgPerUom.$pristine && itemMasterForm.kgPerUom.$invalid" class="help-block">Please Enter Kg per UOM</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.displayOrder.$invalid && !itemMasterForm.displayOrder.$pristine }">
+												<label for="displayOrder">Display Order</label> 
+												<input	type="text" id="displayOrder" name="displayOrder" class="form-control" required="required"
+													ng-model="item.displayOrder"> 
+												<span ng-show="!itemMasterForm.displayOrder.$pristine && itemMasterForm.displayOrder.$invalid" class="help-block">Please Enter Display Order</span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.equivalentItemId.$invalid && !itemMasterForm.equivalentItemId.$pristine }"> 
+												<label for="equivalentItemId"> Equivalent Item </label> 
+												<select multiple  data-ui-options="{minimumResultsForSearch: 10}" data-placeholder="Enter Equivalent Item" name="equivalentItemId"
+														data-minimum-results-for-search="10" tabindex="-1" ng-model="item.equivalentItemId" class="select2 form-control" required="required"
+														id="multiple-select" ng-options="c.itemId as c.itemName for c in itemNameList">
+													</select>
+											<span ng-show="!itemMasterForm.equivalentItemId.$pristine && itemMasterForm.equivalentItemId.$invalid" class="help-block">Please Select Equivalent Item</span>
+											</div>
+										</div>
+										
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.showToSubdealer1=true"
+													data-ng-show="item.showToSubdealer=='true'">
+												<label for="address">Show to Sub-Dealer</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														 ng-model="item.showToSubdealer1">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.showToSubdealer2=false"
+													data-ng-show="item.showToSubdealer=='false'">
+												<label for="address">Show to Sub-Dealer</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-init="switchery1 = true" ng-model="item.showToSubdealer2">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.acceptTarget1=true"
+													data-ng-show="item.acceptTarget=='true'">
+												<label for="username">Accept Target</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch  ng-model="item.acceptTarget1">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.acceptTarget2=false"
+													data-ng-show="item.acceptTarget=='false'">
+												<label for="username">Accept Target</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch  ng-model="item.acceptTarget2">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.dailyStock1=true"
+													data-ng-show="item.dailyStock=='true'">
+												<label for="email">Daily Stock</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model="item.dailyStock1">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.dailyStock2=false"
+													data-ng-show="item.dailyStock=='false'">
+												<label for="email">Daily Stock</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model="item.dailyStock2">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											
+											
+											
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.activeStatus1=true"
+													data-ng-show="item.activeStatus=='true'">
+												<label for="email">Active Status</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model="item.activeStatus1">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.activeStatus2=false"
+													data-ng-show="item.activeStatus=='false'">
+												<label for="email">Active Status</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model="item.activeStatus2">
+												</div>
+												<span class="help-block"></span>
+											</div>
+									
+											
+										</div>
+									
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.restrictSaleQty2=false"
+													data-ng-show="item.restrictSaleQty=='false'">
+												<label for="email">Restricted Sale Quantity</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model="item.restrictSaleQty2">
+												</div>
+												<span class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" data-ng-init="item.restrictSaleQty1=true"
+													data-ng-show="item.restrictSaleQty=='true'">
+												<label for="email">Restricted Sale Quantity</label>
+												<div class="checkbox-inline checkbox-ios">
+													<input type="checkbox" id="checkbox-ios1" data-ui-switch
+														data-ng-model="item.restrictSaleQty1">
+												</div>
+												<span  class="help-block"></span>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+
+								<br />
+								
+								<div class="tab-pane bg-gray-lighter" id="tab2">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.groupName.$invalid && !itemMasterForm.groupName.$pristine }">
+												<label for="groupName">Group Name</label> 
+												<input type="text" id="groupName" name="groupName"  class="form-control" required="required" ng-model="item.groupName"> 
+												<span ng-show="!itemMasterForm.groupName.$pristine && itemMasterForm.groupName.$invalid" class="help-block">Please Enter Group Name</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.dailyStockMainGroup.$invalid && !itemMasterForm.dailyStockMainGroup.$pristine }"> 
+												<label for="item.dailyStockMainGroup">Daily Stock Main Group</label> 
+												<input type="text" id="dailyStockMainGroup" required="required"  name=item.dailyStockMainGroup" ng-model="item.dailyStockMainGroup" class="form-control" data-parsley-trigger="change"
+													required="required"> 
+												<span ng-show="!itemMasterForm.dailyStockMainGroup.$pristine && itemMasterForm.dailyStockMainGroup.$invalid" class="help-block" >Please Enter Daily Stock Main Group</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.tokenNoPrefix.$invalid && !itemMasterForm.tokenNoPrefix.$pristine }">
+												<label for="tokenNoPrefix">Token No. Prefix</label> 
+												<input type="text" id="tokenNoPrefix" name="tokenNoPrefix" required="required"  class="form-control" ng-model="item.tokenNoPrefix">
+												<span ng-show="!itemMasterForm.tokenNoPrefix.$pristine && itemMasterForm.tokenNoPrefix.$invalid" class="help-block">Please Enter Token No. Prefix</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.sectorId.$invalid && !itemMasterForm.sectorId.$pristine }">
+												<label for="sectorId">Sector Trade</label> 
+												<select  class="select2 form-control" required="required" name="sectorId" id="default-select" ng-model="item.sectorId"	ng-options="c.sectorId as c.sectorName for c in sectorList">
+												</select> 
+												<span ng-show="!itemMasterForm.sectorId.$pristine && itemMasterForm.sectorId.$invalid" class="help-block">Please Enter Sector Trade</span> 
+											</div>
+										</div>
+										
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.saleQuantity.$invalid && !itemMasterForm.saleQuantity.$pristine }">
+												<label for="saleQuantity">Sale Quantity as per UOM</label>
+												 <input type="text" id="saleQuantity" name="saleQuantity" class="form-control" required="required"  ng-model="item.saleQuantity"> 
+												 <span ng-show="!itemMasterForm.saleQuantity.$pristine && itemMasterForm.saleQuantity.$invalid" class="help-block">Please Enter Sale Quantity as per UOM</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" ng-class="{ 'has-error' : itemMasterForm.packingQuantity.$invalid && !itemMasterForm.packingQuantity.$pristine }">
+												<label for="packingQuantity">Packing Quantity</label> 
+												<input	type="text" id="packingQuantity" name="packingQuantity" required="required"  maxlength="6" class="form-control" ng-model="item.packingQuantity"> 
+												<span ng-show="!itemMasterForm.packingQuantity.$pristine && itemMasterForm.packingQuantity.$invalid" class="help-block">Please Enter Packing Quantity</span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="address">Product Image</label> 
+												<input	type="file" id="address" name="address" class="form-control btn" ng-model="item.productImage">
+												<span ng-show="!itemMasterForm.address.$pristine && itemMasterForm.address.$invalid" class="help-block"></span>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+												<label for="address" >Product PDF</label> 
+												<input type="file" id="address" name="address"  class="form-control btn" ng-model="item.productPdf"> 
+												<span ng-show="!itemMasterForm.address.$pristine && itemMasterForm.address.$invalid" class="help-block"></span>
+											</div>
+
+										</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" class="table-responsive small-top" ng-init="">
+									<table id="exportCreateIndent"
+										class="table table-striped table-bordered" border="1">
+										<caption>
+											<b>Statewise Sale Rate</b>
+										</caption>
+										<thead>
+											<tr style="float: center; background-color: #CFD8DC;" ng-init="getStateList();">
+												<th class="text-center">Sr No</th>
+												<th class="text-center">State Name</th>
+												<th class="text-center">Advance/Credit</th>
+												<th class="text-center">Sale Rate</th>
+												<th class="text-center">Action</th>
+											</tr>
+										</thead>
+										<tbody class="text-center">
+											<tr>
+												<td></td>
+												<td><select multiple data-ui-jq="select2" allow-clear="true" data-ui-options="{minimumResultsForSearch: 10}" data-minimum-results-for-search="10" 
+												tabindex="-1"	ng-model="saleRate.stateId" id="multiselect"  ng-options="c.stateId as c.stateName for c in stateList" class="select2 form-control" id="multiple-select">
+												</select></td>
+												<td><select data-ui-jq="select2" class="select2 form-control" id="default-select" ng-model="saleRate.saleRateWith"  id="stateDropdown"
+													class="select2 form-control" id="multiple-select">
+														<option value="advance">Advance</option>
+														<option value="credit-7">Credit - 7 Days</option>
+														<option value="credit-15">Credit - 15 Days</option>
+														<option value="longtime">Longtime</option>
+												</select></td>
+												<td><input type="text" id="address" name="address" placeholder="" ng-model="saleRate.rate" class="form-control"></td>
+												<td><button class="btn btn-xs btn-info btn-rounded" ng-disabled="!saleRate.stateId || !saleRate.saleRateWith || !saleRate.rate" type="submit" 
+												data-ng-click="addStateList();">Add</button></td>
+											</tr>
+											<tr ng-repeat="sale in saleRateList track by $index">
+												<td>{{$index + 1}}</td>
+												<td><select multiple data-ui-jq="select2" data-ui-options="{minimumResultsForSearch: 10}"data-minimum-results-for-search="10" tabindex="-1"
+													ng-model="sale.stateId" ng-options="c.stateId as c.stateName for c in stateList" class="select2 form-control" id="multiple-select" ng-disabled="!editMode">
+												</select></td>
+												<td><span data-ng-hide="editMode">{{sale.saleRateWith}}</span>
+												<select data-ui-jq="select2" class="select2 form-control" id="default-select" ng-model="sale.saleRateWith"  id="stateDropdown"
+													class="select2 form-control" id="multiple-select" data-ng-show="editMode">
+														<option value="advance">Advance</option>
+														<option value="credit-7">Credit - 7 Days</option>
+														<option value="credit-15">Credit - 15 Days</option>
+														<option value="longtime">Longtime</option>
+												</select>
+												</td>
+												<td><span data-ng-hide="editMode">{{sale.rate}}</span>
+												<input type="text" id="address" name="address" placeholder="" ng-model="sale.rate" class="form-control" data-ng-show="editMode">
+												</td>
+												<td>
+												<button class="btn btn-xs btn-warning" data-ng-hide="editMode" data-ng-click="editMode = true; editAppKey(entry)">Edit</button>
+											    <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false;" class="btn btn-success btn-xs">Update</button>
+												<button class="btn btn-xs btn-danger btn-rounded" type="submit" data-ng-click="deleteStateListFinal($index);">Delete</button>
+												</td>
+												</tr>
+
+										</tbody>
+									</table>
+								</div>
+								</div>
+									<ul class="pager wizard">
+										<li class="previous" id="previous">
+											<button class="btn btn-default btn-rounded pull-left">
+												<i class="fa fa-caret-left"></i> &nbsp; Previous
+											</button>
+										</li>
+										<li>
+											<button class="btn btn-primary btn-warning"
+												ng-click="hideItemForm();">Cancel</button>
+										</li>
+										<li class="next" id="next">
+											<button class="btn btn-primary btn-rounded pull-right">
+												Next &nbsp; <i class="fa fa-caret-right"></i>
+											</button>
+											
+										</li>
+										<li class="finish" style="display: none" id="finish">
+											<button class="btn btn-success btn-rounded pull-right"
+												ng-click="itemMasterForm.companyId.$pristine=false;itemMasterForm.brandId.$pristine=false;itemMasterForm.itemCode.$pristine=false;itemMasterForm.itemName.$pristine =false;
+												itemMasterForm.itemCategoryId.$pristine=false;itemMasterForm.shortName.$pristine=false;itemMasterForm.quantityPerBox.$pristine=false;itemMasterForm.uomId.$pristine=false;
+												itemMasterForm.kgPerUom.$pristine=false;itemMasterForm.displayOrder.$pristine=false;itemMasterForm.equivalentItemId.$pristine=false;itemMasterForm.groupName.$pristine=false;
+												itemMasterForm.dailyStockMainGroup.$pristine=false;itemMasterForm.tokenNoPrefix.$pristine=false;itemMasterForm.sectorId.$pristine=false;itemMasterForm.saleQuantity.$pristine=false;
+												itemMasterForm.packingQuantity.$pristine=false;saveItem(!itemMasterForm.$invalid);" ng-hide= "updateItem">
+												Save &nbsp; <i class="glyphicon glyphicon-ok"></i>
+											</button>
+											<button class="btn btn-success btn-rounded pull-right"
+												ng-click="updateItemMaster();" ng-show="updateItem">
+												Update &nbsp; <i class="glyphicon glyphicon-ok"></i>
+											</button>
+										</li>
+									</ul>
+								 
+								</div>
+								</div>
+								</div>
+								</div>
+								</div>
+								</form>
+								</div>
+								</section>
+							</div>
+						</div>
+			

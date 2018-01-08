@@ -1,0 +1,228 @@
+<h3 class="page-title">
+	Route Master
+	<button class="btn btn-default btn-success pull-right"
+		ng-click="addNewRoute();" ng-hide="routeForm">Add New Route</button>
+</h3>
+<div class="row">
+	<div class="col-md-12">
+		<section class="widget">
+			<header>
+				<div class="widget-controls">
+					<a data-widgster="expand" title="Expand" href="#"><i
+						class="glyphicon glyphicon-chevron-up"></i></a> <a
+						data-widgster="collapse" title="Collapse" href="#"><i
+						class="glyphicon glyphicon-chevron-down"></i></a>
+				</div>
+			</header>
+			<div class="table-responsive small-top" ng-init="getRouteList();"
+				ng-hide="routeForm">
+				<table id="exportCreateIndent"
+					class="table table-striped table-bordered" border="1">
+					<thead>
+						<tr style="float: center; background-color: #CFD8DC;">
+							<th class="text-center">Sr No</th>
+							<th class="text-center">Route Id</th>
+							<th class="text-center">Magazine Name</th>
+							<th class="text-center">Customer Name</th>
+							<th class="text-center">District</th>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr ng-repeat="r in routeList">
+							<td>{{$index + 1}}</td>
+							<td><a href="" data-toggle="modal"
+								ng-click="getRouteDetails(r.routeId)">{{r.routeId}}</a></td>
+							<td>{{r.magazineId}}</td>
+							<td>{{r.customerId}}</td>
+							<td>{{r.districtId}}</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="widget-body" ng-show="routeForm">
+				<div class="row">
+					<div class="col-md-8">
+						<div data-bootstrap-wizard data-height="370px" class="form-wizard">
+
+							<form>
+								<fieldset>
+
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="customerId">Customer Name</label> <select
+												class="select2 form-control" id="customerId"
+												ng-model="route.customerId"
+												ng-options="c.customerId as c.customerName for c in customerList"
+												ng-change="getMagazineListForCustomer(route.customerId)"></select>
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="magazineId">Magazine Name</label> <select
+												class="select2 form-control" id="magazineId"
+												ng-model="route.magazineId"
+												ng-options="m.magazineId as m.magazineName for m in magazineList"></select>
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="stateId">State Name</label> <select
+												class="select2 form-control" id="stateId"
+												ng-model="routeMapping.stateId"
+												ng-options="s.stateId as s.stateName for s in stateList"
+												ng-change="getStateDetails(routeMapping.stateId);getDistrictListForState(routeMapping.stateId);"></select>
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="districtId">District Name</label> <select
+												class="select2 form-control" id="districtId"
+												ng-model="routeMapping.districtId"
+												ng-options="d.districtId as d.districtName for d in districtList"
+												ng-change="getDistrictDetails(routeMapping.districtId)"></select>
+											<span class="help-block"></span>
+										</div>
+
+									</div>
+
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="ccEmailId">CC Email Id</label> <input type="text"
+												id="ccEmailId" name="ccEmailId"
+												ng-model="routeMapping.ccEmailId" class="form-control">
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="officeAddress1">Office Address1</label>
+											<textarea type="text" id="ccOfficeAddress1"
+												name="ccOfficeAddress1"
+												ng-model="routeMapping.ccOfficeAddress1"
+												class="form-control"></textarea>
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="officeAddress2">Office Address2</label>
+											<textarea type="text" id="ccOfficeAddress2"
+												name="ccOfficeAddress2"
+												ng-model="routeMapping.ccOfficeAddress2"
+												class="form-control"></textarea>
+											<span class="help-block"></span>
+										</div>
+
+									</div>
+
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="emailId">Email Id</label> <input type="text"
+												id="emailId" name="emailId" ng-model="routeMapping.emailId"
+												class="form-control"> <span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="reachedDays">Reached Days</label> <input
+												type="text" id="reachedDays" name="reachedDays"
+												ng-model="routeMapping.reachedDays" class="form-control">
+											<span class="help-block"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+											<label for="activeStatus">Active Status</label>
+											<div class="checkbox-inline checkbox-ios">
+												<input type="checkbox" id="activeStatus" data-ui-switch
+													ng-model="route.activeStatus">
+											</div>
+											<span class="help-block"></span>
+										</div>
+
+									</div>
+
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+										align="center">
+										<button class="btn btn-primary btn-success"
+											ng-click="addRouteDetails();">Add To Table</button>
+									</div>
+
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="table-responsive small-top">
+											<table id="routeTable"
+												class="table table-striped table-bordered" border="1">
+												<caption>
+													<b>Route Details</b>
+												</caption>
+												<thead>
+													<tr style="float: center; background-color: #CFD8DC;">
+														<th class="text-center">Sr No</th>
+														<th class="text-center">State Name</th>
+														<th class="text-center">District Name</th>
+														<th class="text-center">Email Id</th>
+														<th class="text-center">Cc Email Id</th>
+														<th class="text-center">Reached Days</th>
+														<th class="text-center">Action</th>
+													</tr>
+												</thead>
+												<tbody class="text-center">
+
+													<tr ng-repeat="r in routeMappingList">
+														<td>{{$index + 1}}</td>
+														<td>{{r.stateId}}</td>
+														<td>{{r.districtId}}</td>
+														<td>{{r.emailId}}</td>
+														<td>{{r.ccEmailId}}</td>
+														<td>{{r.reachedDays}}</td>
+														<td>
+															<!-- <button
+																		class="btn btn-xs btn-info btn-rounded " ng-click="edit ">
+																		<span class="glyphicon glyphicon-edit">
+																	</button> -->
+															<button class="btn btn-xs btn-danger btn-rounded"
+																ng-click="removeRouteDetails($index);">
+																<span class="glyphicon glyphicon-remove">
+															</button>
+														</td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+
+								</fieldset>
+
+								<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12"
+									align="center" ng-hide="updateRouteForm">
+									<button class="btn btn-default btn-success"
+										ng-click="saveRoute();">Submit</button>
+
+									<button class="btn btn-primary btn-warning"
+										ng-click="backToRouteList();">Cancel</button>
+								</div>
+
+								<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12"
+									align="center" ng-show="updateRouteForm">
+									<button class="btn btn-default btn-success"
+										ng-click="updateRoute();">Update</button>
+
+									<button class="btn btn-primary btn-warning"
+										ng-click="backToRouteList();">Cancel</button>
+								</div>
+
+							</form>
+
+						</div>
+						<br />
+
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
